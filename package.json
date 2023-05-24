@@ -5,6 +5,8 @@
   "scripts": {
     "dev": "vite",
     "build": "run-p type-check build-only",
+    "build:test": "vue-tsc && vite build --mode test",
+    "build:por": "vue-tsc && vite build --mode production",
     "preview": "vite preview",
     "test:unit": "vitest",
     "build-only": "vite build",
@@ -44,6 +46,7 @@
     "unplugin-auto-import": "^0.16.2",
     "unplugin-vue-components": "^0.24.1",
     "vite": "^4.3.5",
+    "vite-plugin-svg-icons": "^2.0.1",
     "vitest": "^0.31.0",
     "vue-tsc": "^1.6.4"
   }
