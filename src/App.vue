@@ -13,10 +13,9 @@ let num = ref(123)
   </svg> -->
 </template>
 
-<style scoped lang="less">
-@color:green;
+<style scoped lang="scss">
 h1{
-  color:@color;
+  color:$color;
 }
 </style>
 // @color : red;

@@ -19,9 +19,7 @@ export default defineConfig({
       resolvers: [ElementPlusResolver()],
     }),
     createSvgIconsPlugin({
-      // Specify the icon folder to be cached
       iconDirs: [path.resolve(process.cwd(), 'src/assets/icons')],
-      // Specify symbolId format
       symbolId: 'icon-[dir]-[name]',
     }),
   ],
@@ -33,7 +31,8 @@ export default defineConfig({
   css: {
     preprocessorOptions: {
       scss: { 
-        additionalData: '@import "@/assets/style/mixin.scss";'
+        javascriptEnabled:true,
+        additionalData: '@import "./src/styles/variable.scss";'
       }
     }
   }
