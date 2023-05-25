@@ -19,7 +19,7 @@ request.interceptors.request.use((config)=>{
 })
 // 响应拦截器 两个回调一个成功，一个失败
 request.interceptors.response.use((response)=>{
-  return response
+  return response.data
 },(error)=>{
  let message = ''
  let status = error.response.status
@@ -41,5 +41,7 @@ request.interceptors.response.use((response)=>{
     break;
  }
  ElMessage.error(message)
- Promise.reject(error)
+ return Promise.reject(error)
 })
+
+export default request

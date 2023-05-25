@@ -8,9 +8,6 @@ let num = ref(123)
   <h1>{{num}}</h1>
   <el-button type='success' :icon="Check" @click="num++"></el-button>
   <svgIcon color="red" name="home" width="50px" height="50px"></svgIcon>
-  <!-- <svg>
-    <use xlink:href="#icon-test" fill="green"></use>
-  </svg> -->
 </template>
 
 <style scoped lang="scss">
