@@ -8,6 +8,8 @@ import gloablComponent from '@/components/index'
 import '@/styles/index.scss'
 
 const app = createApp(App)
+// const pinia = createPinia()
+// pinia.use(piniaPersist)
 app.use(gloablComponent)
 app.use(createPinia())
 app.use(router)
