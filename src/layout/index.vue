@@ -20,7 +20,7 @@
       </div>
       <!-- 内容展示区域 -->
       <div class="layout_main">
-          <!-- <Main></Main> -->
+          <Main></Main>
       </div>
   </div>
 </template>
@@ -30,6 +30,8 @@
 import Logo from './logo/index.vue'
 //引入左侧导航
 import Menu from './menu/index.vue'
+//引入路由出口
+import Main from './main/index.vue'
 //获取用户仓库
 import {useLoginStore} from '@/stores/modules/user'
 let userLogin = useLoginStore()
