@@ -2,6 +2,10 @@
 import axios from 'axios'
 //引入element信息
 import { ElMessage } from 'element-plus'
+//引入用户相关的仓库
+// import { useLoginStore } from '@/stores/modules/user'
+
+
 // 使用axios创建一个axios完成其他配置
 let request = axios.create({
   // 设置相同路径
@@ -13,6 +17,11 @@ let request = axios.create({
 
 //请求拦截器
 request.interceptors.request.use((config)=>{
+  // let loginStore = useLoginStore()
+  let token = localStorage.getItem('TOKEN')
+  if(token){
+    config.headers.token = token
+  }
   // 配置对象config的headers属性可以给服务器携带公共参数
   // 返回配置对像config
   return config

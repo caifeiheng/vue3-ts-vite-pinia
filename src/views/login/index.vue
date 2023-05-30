@@ -86,7 +86,7 @@ const login = async ()=>{
       message:'欢迎回来',
       title:'Hi ! '+ getTime()
     })
-    $router.push('/layout')
+    $router.push('/')
     isLoading.value = false
   },reason=>{
     ElMessage.error(reason)

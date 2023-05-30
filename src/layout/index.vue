@@ -1,42 +1,49 @@
 <template>
   <div class="layout_container">
       <!-- 左侧菜单 -->
-      <div class="layout_slider">
+      <div class="layout_slider" :class="tabbarStore.flod?'fold':''">
           <Logo></Logo>
           <!-- 展示菜单 -->
           <!-- 滚动组件 -->
           <el-scrollbar class="scrollbar">
               <!-- 菜单组件-->
-              <el-menu background-color="#001529" text-color="white" active-text-color="yellowgreen">
+              <el-menu :collapse="tabbarStore.flod" :default-active="$route.path"  background-color="#001529" text-color="white" active-text-color="yellowgreen">
                   <!--根据路由动态生成菜单-->
                   <Menu :menuList="userLogin.menuRoutes"></Menu>
               </el-menu>
           </el-scrollbar>
       </div>
       <!-- 顶部导航 -->
-      <div class="layout_tabbar">
+      <div class="layout_tabbar" :class="tabbarStore.flod?'fold':''">
           <!-- layout组件的顶部导航tabbar -->
-          <!-- <Tabbar></Tabbar> -->
+          <Tabbar></Tabbar>
       </div>
       <!-- 内容展示区域 -->
-      <div class="layout_main">
+      <div class="layout_main" :class="tabbarStore.flod?'fold':''">
           <Main></Main>
       </div>
   </div>
 </template>
 
 <script setup lang="ts">
+//引入路由信息
+import {useRoute} from 'vue-router'
 //引入左侧菜单logo子组件
 import Logo from './logo/index.vue'
 //引入左侧导航
 import Menu from './menu/index.vue'
 //引入路由出口
 import Main from './main/index.vue'
+//引入头部
+import Tabbar from './tabbar/index.vue'
 //获取用户仓库
 import {useLoginStore} from '@/stores/modules/user'
+//获取tabbar 仓库
+import { useTabbarStore } from '@/stores/modules/tabbar'
+let tabbarStore = useTabbarStore()
 let userLogin = useLoginStore()
 
-
+let $route = useRoute()
 
 </script>
 <style scoped lang="scss">
@@ -50,7 +57,9 @@ let userLogin = useLoginStore()
         height: 100vh;
         background: $base-menu-background;
         transition: all 0.3s;
-
+        &.fold {
+            width: $base-menu-min-width;
+        }
         .scrollbar {
             width: 100%;
             height: calc(100vh - $base-menu-logo-height);

@@ -5,6 +5,11 @@
 </template>
 
 <script setup lang="ts">
+//引入用户相关的仓库
+import {useLoginStore} from '@/stores/modules/user'
+let loginStore = useLoginStore()
+
+loginStore.userInfor()
 
 </script>
 

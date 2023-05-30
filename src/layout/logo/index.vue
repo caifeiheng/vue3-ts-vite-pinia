@@ -25,6 +25,7 @@ import setting from '@/setting';
   p{
      font-size: $base-logo-title-fontSize; 
      margin-left: 10px;
-  }
+     transition: width 0.3s;
+    }
 }
 </style>

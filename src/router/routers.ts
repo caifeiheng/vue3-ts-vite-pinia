@@ -1,5 +1,5 @@
 //引入路由类型
-import type { RouteLocationRaw } from "vue-router";
+// import type { RouteLocationRaw } from "vue-router";
 // 对外暴露配置路由
 export const constantRoute = [ {
   //登录
@@ -18,9 +18,7 @@ export const constantRoute = [ {
   component: () => import('@/layout/index.vue'),
   name: 'layout',
   meta: {
-    title: '',
     hidden: false,
-    icon: '',
   },
   redirect: '/home',
   children: [
