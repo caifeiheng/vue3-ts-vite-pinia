@@ -25,7 +25,7 @@ interface userInfo{
   token:string,
 }
 interface user{
-  checkUuser:userInfo
+  checkUser:userInfo
 }
 //定义服务器返回用户信息相关的数据类型
 export interface userResponseData{

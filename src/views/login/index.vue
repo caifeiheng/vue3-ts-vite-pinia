@@ -32,7 +32,7 @@ import {useLoginStore} from '@/stores/modules/user'
 // 引入element plus
 import { ElMessage,ElNotification } from 'element-plus';
 // 引入路由
-import { useRouter } from 'vue-router';
+import { useRouter,useRoute } from 'vue-router';
 // 引入获取当前时间的函数
 import {getTime} from '@/utils/times'
 // 控制加载效果
@@ -41,6 +41,8 @@ let isLoading = ref(false)
 let loginForms = ref()
 //获取路由器
 let $router = useRouter()
+//获取路由信息
+let $route = useRoute()
 //收集账号密码的数据
 let loginForm = reactive({username:'admin',password:'111111'})
 //使用仓库发送请求
@@ -86,7 +88,8 @@ const login = async ()=>{
       message:'欢迎回来',
       title:'Hi ! '+ getTime()
     })
-    $router.push('/')
+    let redirect:any = $route.query.redirect
+    $router.push({path:redirect||'/'})
     isLoading.value = false
   },reason=>{
     ElMessage.error(reason)

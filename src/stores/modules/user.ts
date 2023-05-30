@@ -8,12 +8,12 @@ import type {loginForm,loginResponseData} from '@/api/user/type'
 import {reqLogin,reqUserInfo} from '@/api/user/index'
 //引入路由数据
 import {constantRoute} from '@/router/routers'
-//引入element plus 错区信息提示
+//引入响应式
+import {ref} from 'vue'
 export const useLoginStore =  defineStore('login',()=>{
-  let token
   const userLogin= async (data:loginForm)=>{
     let result:loginResponseData = await reqLogin(data) 
-    token = localStorage.getItem('TOKEN') || ''
+    let token = localStorage.getItem('TOKEN') || ''
     if (result.code == 200) {
       token = (result.data.token as string)
       localStorage.setItem('TOKEN',token)
@@ -21,12 +21,23 @@ export const useLoginStore =  defineStore('login',()=>{
     }else{
       return Promise.reject(result.data.message)
     } 
-    
   }
+  //声明变量接收用户昵称和头像
+  let username = ref('')
+  let avatar = ref('')
   const userInfor = async()=>{
     let res = await reqUserInfo()
-    console.log(res);
+    if(res.code == 200){
+      username.value = res.data.checkUser.username
+      avatar.value = res.data.checkUser.avatar
+    }
   }
   const menuRoutes = constantRoute
-  return {userLogin,userInfor,menuRoutes,token}
+  //退出登录逻辑
+  const userLogout = ()=>{
+    username.value = ''
+    avatar.value = ''
+    localStorage.removeItem('TOKEN')
+  }
+  return {userLogin,userInfor,userLogout,menuRoutes,username,avatar}
 })
