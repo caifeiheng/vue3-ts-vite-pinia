@@ -44,7 +44,7 @@ let $router = useRouter()
 //获取路由信息
 let $route = useRoute()
 //收集账号密码的数据
-let loginForm = reactive({username:'admin',password:'111111'})
+let loginForm = reactive({username:'admin',password:'atguigu123'})
 //使用仓库发送请求
 const useLogin = useLoginStore()
 //自定义用户名校验规则
@@ -89,7 +89,7 @@ const login = async ()=>{
       title:'Hi ! '+ getTime()
     })
     let redirect:any = $route.query.redirect
-    $router.push({path:redirect||'/'})
+    $router.push({path:redirect || '/'})
     isLoading.value = false
   },reason=>{
     ElMessage.error(reason)

@@ -9,7 +9,7 @@ import { ElMessage } from 'element-plus'
 // 使用axios创建一个axios完成其他配置
 let request = axios.create({
   // 设置相同路径
-  baseURL:import.meta.env.VITE_APP_BASE_URL,
+  baseURL:import.meta.env.VITE_SERVE,
   // 设置请求超时时间
   timeout:5000
 })
