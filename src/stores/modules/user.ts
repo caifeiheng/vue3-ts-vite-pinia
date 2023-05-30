@@ -30,6 +30,9 @@ export const useLoginStore =  defineStore('login',()=>{
     if(res.code == 200){
       username.value = res.data.checkUser.username
       avatar.value = res.data.checkUser.avatar
+      return 'ok'
+    }else{
+      return Promise.reject('')
     }
   }
   const menuRoutes = constantRoute
