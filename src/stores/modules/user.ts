@@ -2,13 +2,15 @@
 import { defineStore } from "pinia";
 // 引入登陆请求接口
 import {reqLogin,reqUserInfo,reqLogout} from '@/api/user/index'
+//引入用户相关的数据类型
+import type {loginFormData,loginResponseData,userInforResponseData} from '@/api/user/type'
 //引入路由数据
 import {constantRoute} from '@/router/routers'
 //引入响应式
 import {ref} from 'vue'
 export const useLoginStore =  defineStore('login',()=>{
-  const userLogin= async (data:any)=>{
-    let result:any = await reqLogin(data) 
+  const userLogin= async (data:loginFormData)=>{
+    let result:loginResponseData = await reqLogin(data) 
     let token = localStorage.getItem('TOKEN')
     if (result.code == 200) {
       token = (result.data as string)
@@ -22,7 +24,7 @@ export const useLoginStore =  defineStore('login',()=>{
   let username = ref('')
   let avatar = ref('')
   const userInfor = async()=>{
-    let res:any = await reqUserInfo()
+    let res:userInforResponseData = await reqUserInfo()
     if(res.code == 200){
       username.value = res.data.name
       avatar.value = res.data.avatar
