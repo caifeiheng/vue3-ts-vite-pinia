@@ -12,7 +12,6 @@ import 'dayjs/locale/zh-cn' //中文
 import locale from 'element-plus/lib/locale/lang/zh-cn' //中文
 
 const app = createApp(App)
-
 app.use(gloablComponent)
 app.use(element, { locale })
 app.use(pinia)

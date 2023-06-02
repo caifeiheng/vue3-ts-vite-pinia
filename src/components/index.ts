@@ -1,7 +1,8 @@
 import SvgIcon from '@/components/SvgIcon/index.vue'
 //引入全部路由组件
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
-const allGloablComponent:any ={SvgIcon}
+import Category from './Category/index.vue'
+const allGloablComponent:any ={SvgIcon,Category}
 export default{
   install(app:any){
     Object.keys(allGloablComponent).forEach(key=>{
