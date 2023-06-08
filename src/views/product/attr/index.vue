@@ -3,7 +3,7 @@
     <!-- 三级分类全局组件 -->
     <Category :scene="scene" />
     <el-card style="margin:10px 0px">
-      <div v-show="scene">
+      <div v-show="scene == 0">
         <el-button @click="addAttr" type="primary" size="default" icon="Plus"
           :disabled="categoryStore.c3Id ? false : true">添加属性</el-button>
         <el-table border style="margin:10px 0px" :data="attrData">
@@ -29,7 +29,7 @@
           </el-table-column>
         </el-table>
       </div>
-      <div v-show="!scene">
+      <div v-show="scene == 1">
         <!-- 展示添加属性与修改数据的结构 -->
         <el-form :inline="true">
           <el-form-item label="属性名称">
@@ -76,7 +76,7 @@ import { watch, ref, reactive, nextTick, onBeforeUnmount } from 'vue'
 import { ElMessage } from 'element-plus';
 let categoryStore = useCategoryStore();
 let attrData = ref<AttrList>([])
-let scene = ref<boolean>(true)
+let scene = ref<number>(0)
 //准备一个数组:将来存储对应的组件实例el-input
 let inputArr = ref<any>([]);
 //收集新增的属性的数据
@@ -115,13 +115,14 @@ const addAttr = () => {
     ],
     categoryId: categoryStore.c3Id,//三级分类的ID
     categoryLevel: 3,//代表的是三级分类
+    id:'',
   })
   //切换为添加与修改属性的结构
-  scene.value = false
+  scene.value = 1;
 }
 // 点击取消
 const cancel = () => {
-  scene.value = true
+  scene.value = 0;
 }
 //保存按钮的回调
 const save = async () => {
@@ -130,7 +131,7 @@ const save = async () => {
   //添加属性|修改已有的属性已经成功
   if (result.code == 200) {
     //切换场景
-    scene.value = true;
+    scene.value = 0;
     //提示信息
     ElMessage({
       type: 'success',
@@ -226,7 +227,7 @@ const deleteAttr = async (attrId: number) => {
 //table表格修改已有属性按钮的回调
 const updateAttr = (row: Attr) => {
   //切换为添加与修改属性的结构
-  scene.value = false;
+  scene.value = 1;
   //将已有的属性对象赋值给attrParams对象即为
   //ES6->Object.assign进行对象的合并
   Object.assign(attrParams, JSON.parse(JSON.stringify(row)));
