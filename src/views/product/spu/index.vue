@@ -20,9 +20,9 @@
                             @click="amendSup(row)"  ></el-button>
                           <el-button type="primary" size="small" icon="View" title="查看SKU列表"
                             @click="findSku(row)"  ></el-button>
-                          <el-popconfirm :title="`你确定删除${row.spuName}?`" width="200px" >
+                          <el-popconfirm :title="`你确定删除${row.spuName}?`" width="200px" @confirm="deleteSpu(row)">
                               <template #reference>
-                                  <el-button type="primary" size="small" icon="Delete" title="删除SPU"></el-button>
+                                  <el-button type="primary" size="small" icon="Delete" title="删除SPU" ></el-button>
                               </template>
                           </el-popconfirm>
 
@@ -59,7 +59,7 @@
 //引入category仓库
 import {useCategoryStore} from '@/stores/modules/category'
 //引入请求数据接口
-import { getSpuData,getSkuData } from '@/api/product/spu';
+import { getSpuData,getSkuData,removeSpu} from '@/api/product/spu';
 //引入返回数据的ts类型
 import {Records,AllSkuData,SkuData} from '@/api/product/spu/type'
 //引入方法
@@ -150,31 +150,31 @@ const findSku = async (row: SpuData) => {
       skuArr.value = result.data;
       //对话框显示出来
       show.value = true;
+  }     
+}
+
+//删除已有的SPU按钮的回调
+const deleteSpu = async (row: SpuData) => {
+  let result: any = await removeSpu((row.id as number));
+  if (result.code == 200) {
+      ElMessage({
+          type: 'success',
+          message: '删除成功'
+      });
+      //获取剩余SPU数据
+      getHasSpu(records.value.length > 1 ? pageNo.value : pageNo.value - 1)
+  } else {
+      ElMessage({
+          type: 'error',
+          message: '删除失败'
+      })
   }
 }
 
-// //删除已有的SPU按钮的回调
-// const deleteSpu = async (row: SpuData) => {
-//   let result: any = await reqRemoveSpu((row.id as number));
-//   if (result.code == 200) {
-//       ElMessage({
-//           type: 'success',
-//           message: '删除成功'
-//       });
-//       //获取剩余SPU数据
-//       getHasSpu(records.value.length > 1 ? pageNo.value : pageNo.value - 1)
-//   } else {
-//       ElMessage({
-//           type: 'error',
-//           message: '删除失败'
-//       })
-//   }
-// }
-
-// //路由组件销毁前，情况仓库关于分类的数据
-// onBeforeUnmount(() => {
-//   categoryStore.$reset();
-// })
+//路由组件销毁前，情况仓库关于分类的数据
+onBeforeUnmount(() => {
+  categoryStore.$reset();
+})
 </script>
 
 <style scoped></style>
