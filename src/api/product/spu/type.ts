@@ -92,3 +92,31 @@ export interface AllSaletAttr{
 export interface AllSaletAttrResponseData extends ResponseData{
   data:AllSaletAttr[]
 }
+
+//平台属性的收集
+export interface skuAttrValueList {
+  attrId:number|string,
+  valueId:number|string,
+}
+//销售属性
+export interface skuSaleAttrValueList{
+  saleAttrId:number|string,
+  saleAttrValueId:number|string
+}
+//添加sku数据类型
+export interface SkuData{
+  category3Id:string|number,
+  spuId:string|number,
+  tmId:string|number,
+  skuName:string,
+  price:string|number,
+  weight:string|number,
+  skuDesc:string,
+  skuAttrValueList:skuAttrValueList[],
+  skuSaleAttrValueList:skuSaleAttrValueList[]
+  skuDefaultImg:string,
+}
+//定义所有sku数据
+export interface AllSkuData extends ResponseData{
+   data:SkuData[]
+}

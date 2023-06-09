@@ -1,7 +1,7 @@
 //引入axios二次封装
 import request from "@/utils/request";
 //引入数据请求返回的ts数据类型
-import type {SpuData, HasSpuResponseData,GetAllTradeMark,SpuHasImg,SaleAttrResponseData,AllSaletAttrResponseData} from './type'
+import type {AllSkuData,SkuData,SpuData, HasSpuResponseData,GetAllTradeMark,SpuHasImg,SaleAttrResponseData,AllSaletAttrResponseData} from './type'
 
 enum API{
   //获取spu基本数据
@@ -17,7 +17,11 @@ enum API{
   //添加spu
   ADDSPU_URL='/admin/product/saveSpuInfo',
   //修改spu
-  AMENDSPU_URL='/admin/product/updateSpuInfo'
+  AMENDSPU_URL='/admin/product/updateSpuInfo',
+  //添加sku接口
+  ADDSKU_URL='/admin/product/saveSkuInfo',
+  //获取所有sku数据
+  GETSKUDATA_URL='/admin/product/findBySpuId/'
 }
 //获取spu基本数据方法
 export const getSpuData = (page:number,limit:number,category3Id:number|string)=>request.get<any,HasSpuResponseData>(API.GETSPUDATA_URL+`${page}/${limit}?category3Id=${category3Id}`)
@@ -37,3 +41,7 @@ export const addOrAmendSpu=(data:SpuData)=>{
     return request.post<any,any>(API.ADDSPU_URL,data)
   }
 }
+//添加sku
+export const addSku=(data:SkuData)=>request.post<any,any>(API.ADDSKU_URL,data)
+// 获取所有sku
+export const getSkuData = (spuId:number|string)=>request.get<any,AllSkuData>(API.GETSKUDATA_URL+spuId)
