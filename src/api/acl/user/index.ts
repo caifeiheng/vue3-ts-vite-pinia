@@ -19,7 +19,7 @@ enum API{
   DELETESELECTUSER_URL='/admin/acl/user/batchRemove'
 }
 //获取所有用户信息
-export const getAllUser = (page:number,limit:number)=>request.get<any,AllUserData>(API.ALLUSER_URL+`${page}/${limit}`)
+export const getAllUser = (page:number,limit:number,username:string)=>request.get<any,AllUserData>(API.ALLUSER_URL+`${page}/${limit}/?username=${username}`)
 //添加或修改用户
 export const addOrUpdateUser=(data:UserData)=>{
   if(data.id){

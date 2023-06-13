@@ -2,11 +2,11 @@
   <el-card style="height: 80px;">
       <el-form :inline="true" class="form">
           <el-form-item label="用户名:">
-              <el-input placeholder="请你输入搜索用户名"></el-input>
+              <el-input placeholder="请你输入搜索用户名" v-model="keyword"></el-input>
           </el-form-item>
           <el-form-item>
-              <el-button type="primary" size="default">搜索</el-button>
-              <el-button type="primary" size="default">重置</el-button>
+              <el-button type="primary" size="default" :disabled="keyword ? false : true" @click="search">搜索</el-button>
+              <el-button type="primary" size="default" @click="reset">重置</el-button>
           </el-form-item>
       </el-form>
   </el-card>
@@ -97,6 +97,7 @@
   </el-drawer>
 </template>
 <script setup lang="ts">
+import {useTabbarStore} from '@/stores/modules/tabbar' 
   import {ref,onMounted,reactive,nextTick} from 'vue'
   import {getAllUser,addOrUpdateUser,getRoleData,userAddRole,deleteUser,deleteSelectUser} from '@/api/acl/user/index'
   import type {AllUserData,AllUSer,UserData,AllRoleResponseData,AllRole} from '@/api/acl/user/type'
@@ -110,12 +111,15 @@
   let drawer1 = ref<boolean>(false);
   let allRole = ref<AllRole>([]);
   let userRole = ref<AllRole>([]);
+  let tabbarStore = useTabbarStore()
   //准备一个数组存储批量删除的用户的ID
 let selectIdArr = ref<UserData[]>([]);
   //收集顶部复选框全选数据
 const checkAll = ref<boolean>(false);
 //控制顶部全选复选框不确定的样式
 const isIndeterminate = ref<boolean>(true);
+//定义响应式数据:收集用户输入进来的关键字
+let keyword = ref<string>('');
 //顶部的全部复选框的change事件
 const handleCheckAllChange = (val: boolean) => {
   //val:true(全选)|false(没有全选)
@@ -136,7 +140,7 @@ let userParams = reactive<UserData>({
 const getHasUser = async (pager = 1) => {
     //收集当前页码
     pageNo.value = pager;
-    let result: AllUserData = await getAllUser(pageNo.value, pageSize.value);
+    let result: AllUserData = await getAllUser(pageNo.value, pageSize.value,keyword.value);
     
     if (result.code == 200) {
         total.value = result.data.total;
@@ -316,6 +320,17 @@ const onDeleteSelectUser = async () => {
     ElMessage({ type: 'error', message: '删除失败' });
   }
 }
+//搜索按钮的回调
+const search = () => {
+  //根据关键字获取相应的用户数据
+  getHasUser();
+  //清空关键字
+  keyword.value = '';
+}
+//重置按钮
+const reset = () => {
+  tabbarStore.clickRefresh()
+}
 </script>
 <!-- <script setup lang="ts">
 import useLayOutSettingStore from '@/store/modules/setting'
@@ -333,36 +348,10 @@ let total = ref<number>(0);
 let userArr = ref<Records>([]);
 //定义响应式数据控制抽屉的显示与隐藏
 let drawer = ref<boolean>(false);
-
-
-
 //获取form组件实例
 let formRef = ref<any>();
-//定义响应式数据:收集用户输入进来的关键字
-let keyword = ref<string>('');
 //获取模板setting仓库
 let settingStore = useLayOutSettingStore();
-
-
-
-
-
-
-
-
-
-
-//搜索按钮的回调
-const search = () => {
-  //根据关键字获取相应的用户数据
-  getHasUser();
-  //清空关键字
-  keyword.value = '';
-}
-//重置按钮
-const reset = () => {
-  settingStore.refsh = !settingStore.refsh;
-}
 </script> 
 -->
 
