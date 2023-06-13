@@ -97,6 +97,8 @@ const getAttr = async () => {
   let { c1Id, c2Id, c3Id } = categoryStore
   if (c3Id) {
     let result = await getAttrData(c1Id, c2Id, c3Id)
+    console.log(result);
+    
     if (result.code == 200) {
       attrData.value = result.data
     } else {
@@ -209,6 +211,7 @@ const toEdit = (row: AttrValue, $index: number) => {
 const deleteAttr = async (attrId: number) => {
   //发相应的删除已有的属性的请求
   let result: any = await removeAttr(attrId);
+  
   //删除成功
   if (result.code == 200) {
     ElMessage({

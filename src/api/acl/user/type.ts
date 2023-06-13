@@ -1,3 +1,5 @@
+import type { ResponseData } from "@/api/user/type"
+
 //定义返回数公共据类型
 export interface RequestData{
   code:number,
@@ -32,4 +34,21 @@ export interface AllUserData extends RequestData{
     searchCount?: boolean,
     pages: number
   },
+}
+//代表一个职位的ts类型
+export interface RoleData{
+  id?: number,
+  createTime?: string,
+  updateTime?: string,
+  roleName: string,
+  remark: null
+}
+//全部职位的列表
+export type AllRole = RoleData[]
+//获取全部职位接口返回的数据类型
+export interface AllRoleResponseData extends ResponseData{
+  data:{
+    assignRoles:AllRole,
+    allRolesList:AllRole
+  }
 }
