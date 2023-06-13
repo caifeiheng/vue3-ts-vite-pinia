@@ -30,3 +30,22 @@ export interface RoleResponseData extends ResponseData{
     pages: number
   },
 }
+//定义角色权限数据类型
+export interface RolePower{
+  id:number,
+  createTime:string,
+  updateTime:string,
+  pid:number,
+  name:string,
+  code:string,
+  toCode:string,
+  type:number,
+  status:null,
+  level:number,
+  children?:RolePowerChild,
+  select:boolean
+}
+export type RolePowerChild = RolePower[]
+export interface RolePowerResponseData extends ResponseData{
+  data:RolePowerChild
+}

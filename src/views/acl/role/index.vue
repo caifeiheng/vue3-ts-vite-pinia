@@ -22,13 +22,13 @@
           <el-table-column label="操作" width="280px" align="center">
               <!-- row:已有的职位对象 -->
               <template #="{ row, $index }">
-                  <el-button type="primary" size="small" icon="User">分配权限</el-button>
+                  <el-button type="primary" size="small" icon="User" @click="setPermisstion(row)">分配权限</el-button>
                   <el-button type="primary" size="small" icon="Edit" @click="updateRole(row)">编辑</el-button>
-                  <el-popconfirm :title="`你确定要删除${row.roleName}?`" width="260px">
-                      <template #reference>
-                          <el-button type="primary" size="small" icon="Delete">删除</el-button>
-                      </template>
-                  </el-popconfirm>
+                  <el-popconfirm :title="`你确定要删除${row.roleName}?`" width="260px" @confirm="removeRole(row.id)">
+                        <template #reference>
+                            <el-button type="primary" size="small" icon="Delete">删除</el-button>
+                        </template>
+                    </el-popconfirm>
               </template>
           </el-table-column>
       </el-table>
@@ -49,7 +49,7 @@
       </template>
   </el-dialog>
   <!-- 抽屉组件:分配职位的菜单权限与按钮的权限 -->
-  <!-- <el-drawer v-model="drawer">
+  <el-drawer v-model="drawer">
       <template #header>
           <h4>分配菜单与按钮的权限</h4>
       </template>
@@ -63,16 +63,16 @@
               <el-button type="primary" @click="handler">确定</el-button>
           </div>
       </template>
-  </el-drawer> -->
+  </el-drawer>
   </div>
 </template>
 <script setup lang="ts">
 //引入vue
 import {ref,onMounted,reactive,nextTick} from 'vue'
 //引入获取数据的方法
-import {getRoleData,addOrUpdateRole} from '@/api/acl/role/index'
+import {getRoleData,addOrUpdateRole,getRolePower,setRolePower,deleteRole} from '@/api/acl/role/index'
 //引入返回数据类型
-import type {AllRoleData,RoleResponseData,RoleData} from '@/api/acl/role/type'
+import type {AllRoleData,RoleResponseData,RoleData,RolePowerChild,RolePowerResponseData} from '@/api/acl/role/type'
 //引入刷新页面仓库
 import {useTabbarStore} from '@/stores/modules/tabbar'
 //引入element plus 
@@ -98,6 +98,8 @@ let RoleParams = reactive<RoleData>({
 })
 //获取form组件实例
 let form = ref<any>();
+//控制抽屉显示与隐藏
+let drawer = ref<boolean>(false);
 //自定义校验规则的回调
 const validatorRoleName = (rule: any, value: any, callBack: any) => {
   if (value.trim().length >= 2) {
@@ -106,7 +108,17 @@ const validatorRoleName = (rule: any, value: any, callBack: any) => {
       callBack(new Error('职位名称至少两位'))
   }
 }
-
+//定义数组存储用户权限的数据
+let menuArr = ref<RolePowerChild>([]);
+//准备一个数组:数组用于存储勾选的节点的ID(四级的)
+let selectArr = ref<number[]>([100,790]);
+//获取tree组件实例
+let tree = ref<any>();
+//树形控件的测试数据
+const defaultProps = {
+  children: 'children',
+  label: 'name',
+}
 //职位校验规则
 const rules = {
   roleName: [
@@ -177,6 +189,63 @@ const updateRole = (row:RoleData)=>{
       form.value.clearValidate('roleName');
   })
 }
+//抽屉确定按钮的回调
+const handler = async () => {
+  //职位的ID
+  const roleId = (RoleParams.id as number);
+  //选中节点的ID
+  let arr = tree.value.getCheckedKeys();
+  //半选的ID
+  let arr1 = tree.value.getHalfCheckedKeys();
+  let permissionId = arr.concat(arr1);
+  //下发权限
+  let result: any = await setRolePower(roleId, permissionId);
+  if (result.code == 200) {
+      //抽屉关闭
+      drawer.value = false;
+      //提示信息
+      ElMessage({ type: 'success', message: '分配权限成功' });
+      //页面刷新
+      window.location.reload();
+  }else{
+    ElMessage({ type: 'error', message: '分配权限失败' });
+  }
+}
+//分配权限按钮的回调
+//已有的职位的数据
+const setPermisstion = async (row: RoleData) => {
+  //抽屉显示出来
+  drawer.value = true;
+  //收集当前要分类权限的职位的数据
+  Object.assign(RoleParams, row);
+  //根据职位获取权限的数据
+  let result: RolePowerResponseData = await getRolePower((RoleParams.id as number));
+  if (result.code == 200) {
+      menuArr.value = result.data;
+      selectArr.value = filterSelectArr(menuArr.value, []);
+  }
+}
+const filterSelectArr = (allData: any, initArr: any) => {
+  allData.forEach((item: any) => {
+      if (item.select && item.level == 4) {
+          initArr.push(item.id);
+      }
+      if (item.children && item.children.length > 0) {
+          filterSelectArr(item.children, initArr);
+      }
+  })
+
+  return initArr;
+}
+//删除已有的职位
+const removeRole = async (id: number) => {
+  let result: any = await deleteRole(id);
+  if (result.code == 200) {
+      //提示信息
+      ElMessage({ type: 'success', message: '删除成功' });
+      getRole(allRole.value.length > 1 ? pageNo.value : pageNo.value - 1);
+  }
+}
 </script>
 <!-- 
 <script setup lang="ts">
@@ -201,18 +270,12 @@ let total = ref<number>(0);
 //控制对话框的显示与隐藏
 let dialogVisite = ref<boolean>(false);
 
-//控制抽屉显示与隐藏
-let drawer = ref<boolean>(false);
+
 //收集新增岗位数据
 let RoleParams = reactive<RoleData>({
   roleName: ''
 })
-//准备一个数组:数组用于存储勾选的节点的ID(四级的)
-let selectArr = ref<number[]>([]);
-//定义数组存储用户权限的数据
-let menuArr = ref<MenuList>([]);
-//获取tree组件实例
-let tree = ref<any>();
+
 //组件挂载完毕
 onMounted(() => {
   //获取职位请求
@@ -283,69 +346,9 @@ const save = async () => {
   }
 }
 
-//分配权限按钮的回调
-//已有的职位的数据
-const setPermisstion = async (row: RoleData) => {
-  //抽屉显示出来
-  drawer.value = true;
-  //收集当前要分类权限的职位的数据
-  Object.assign(RoleParams, row);
-  //根据职位获取权限的数据
-  let result: MenuResponseData = await reqAllMenuList((RoleParams.id as number));
-  if (result.code == 200) {
-      menuArr.value = result.data;
-      selectArr.value = filterSelectArr(menuArr.value, []);
-  }
-}
-//树形控件的测试数据
-const defaultProps = {
-  children: 'children',
-  label: 'name',
-}
 
-const filterSelectArr = (allData: any, initArr: any) => {
-  allData.forEach((item: any) => {
-      if (item.select && item.level == 4) {
-          initArr.push(item.id);
-      }
-      if (item.children && item.children.length > 0) {
-          filterSelectArr(item.children, initArr);
-      }
-  })
 
-  return initArr;
-}
 
-//抽屉确定按钮的回调
-const handler = async () => {
-  //职位的ID
-  const roleId = (RoleParams.id as number);
-  //选中节点的ID
-  let arr = tree.value.getCheckedKeys();
-  //半选的ID
-  let arr1 = tree.value.getHalfCheckedKeys();
-  let permissionId = arr.concat(arr1);
-  //下发权限
-  let result: any = await reqSetPermisstion(roleId, permissionId);
-  if (result.code == 200) {
-      //抽屉关闭
-      drawer.value = false;
-      //提示信息
-      ElMessage({ type: 'success', message: '分配权限成功' });
-      //页面刷新
-      window.location.reload();
-  }
-}
-
-//删除已有的职位
-const removeRole = async (id: number) => {
-  let result: any = await reqRemoveRole(id);
-  if (result.code == 200) {
-      //提示信息
-      ElMessage({ type: 'success', message: '删除成功' });
-      getHasRole(allRole.value.length > 1 ? pageNo.value : pageNo.value - 1);
-  }
-}
 </script> 
 -->
 
