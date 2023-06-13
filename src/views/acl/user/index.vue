@@ -1,5 +1,6 @@
 <template>
-  <el-card style="height: 80px;">
+  <div>
+    <el-card style="height: 80px;">
       <el-form :inline="true" class="form">
           <el-form-item label="用户名:">
               <el-input placeholder="请你输入搜索用户名" v-model="keyword"></el-input>
@@ -95,6 +96,7 @@
             </div>
         </template>
   </el-drawer>
+  </div>
 </template>
 <script setup lang="ts">
 import {useTabbarStore} from '@/stores/modules/tabbar' 
@@ -332,28 +334,6 @@ const reset = () => {
   tabbarStore.clickRefresh()
 }
 </script>
-<!-- <script setup lang="ts">
-import useLayOutSettingStore from '@/store/modules/setting'
-import { ref, onMounted, reactive, nextTick } from 'vue';
-import { reqSelectUser, reqRemoveUser, reqUserInfo, reqAddOrUpdateUser, reqAllRole, reqSetUserRole } from '@/api/acl/user'
-import type { SetRoleData, UserResponseData, Records, User, AllRoleResponseData, AllRole } from '@/api/acl/user/type';
-import { ElMessage } from 'element-plus';
-//默认页码
-let pageNo = ref<number>(1);
-//一页展示几条数据
-let pageSize = ref<number>(5);
-//用户总个数
-let total = ref<number>(0);
-//存储全部用户的数组
-let userArr = ref<Records>([]);
-//定义响应式数据控制抽屉的显示与隐藏
-let drawer = ref<boolean>(false);
-//获取form组件实例
-let formRef = ref<any>();
-//获取模板setting仓库
-let settingStore = useLayOutSettingStore();
-</script> 
--->
 
 <style scoped>
 .form {
