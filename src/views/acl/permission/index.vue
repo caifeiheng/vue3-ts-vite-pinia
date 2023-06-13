@@ -81,6 +81,8 @@ const save = async () => {
       ElMessage({ type: 'success', message: menuData.id ? '更新成功' : '添加成功' })
       //再次获取全部最新的菜单的数据
       getMenu();
+  }else{
+    ElMessage({ type: 'error', message: menuData.id ? '更新失败' : '添加失败' })
   }
 }
 
