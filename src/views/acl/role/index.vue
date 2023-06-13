@@ -68,7 +68,7 @@
 </template>
 <script setup lang="ts">
 //引入vue
-import {ref,onMounted,reactive} from 'vue'
+import {ref,onMounted,reactive,nextTick} from 'vue'
 //引入获取数据的方法
 import {getRoleData,addOrUpdateRole} from '@/api/acl/role/index'
 //引入返回数据类型
@@ -96,9 +96,22 @@ let RoleParams = reactive<RoleData>({
   roleName:'',
   id:0
 })
-//表单校验
-let rules = {
+//获取form组件实例
+let form = ref<any>();
+//自定义校验规则的回调
+const validatorRoleName = (rule: any, value: any, callBack: any) => {
+  if (value.trim().length >= 2) {
+      callBack();
+  } else {
+      callBack(new Error('职位名称至少两位'))
+  }
+}
 
+//职位校验规则
+const rules = {
+  roleName: [
+      { required: true, trigger: 'blur', validator: validatorRoleName }
+  ]
 }
 //页面加载获取数据
 onMounted(()=>{
@@ -132,6 +145,8 @@ const reset = ()=>{
 }
 //弹出框确定按钮
 const save = async ()=>{
+  //提交前的表单校验
+  await form.value.validate();
   let result = await addOrUpdateRole(RoleParams)
   if(result.code == 200){
     ElMessage.success(RoleParams.id?'编辑成功':'添加成功')
@@ -148,11 +163,19 @@ const addRole = ()=>{
     id:0
   })
   dialogVisite.value = true
+   //清空上一次表单校验错误结果
+   nextTick(() => {
+      form.value.clearValidate('roleName');
+  })
 }
 //点击编辑角色
 const updateRole = (row:RoleData)=>{
   Object.assign(RoleParams,row)
   dialogVisite.value = true
+   //清空上一次表单校验错误结果
+   nextTick(() => {
+      form.value.clearValidate('roleName');
+  })
 }
 </script>
 <!-- 
@@ -177,8 +200,7 @@ let allRole = ref<Records>([]);
 let total = ref<number>(0);
 //控制对话框的显示与隐藏
 let dialogVisite = ref<boolean>(false);
-//获取form组件实例
-let form = ref<any>();
+
 //控制抽屉显示与隐藏
 let drawer = ref<boolean>(false);
 //收集新增岗位数据
@@ -229,10 +251,7 @@ const addRole = () => {
       roleName: '',
       id: 0
   });
-  //清空上一次表单校验错误结果
-  nextTick(() => {
-      form.value.clearValidate('roleName');
-  })
+ 
 
 }
 //更新已有的职位按钮的回调
@@ -246,20 +265,7 @@ const updateRole = (row: RoleData) => {
       form.value.clearValidate('roleName');
   })
 }
-//自定义校验规则的回调
-const validatorRoleName = (rule: any, value: any, callBack: any) => {
-  if (value.trim().length >= 2) {
-      callBack();
-  } else {
-      callBack(new Error('职位名称至少两位'))
-  }
-}
-//职位校验规则
-const rules = {
-  roleName: [
-      { required: true, trigger: 'blur', validator: validatorRoleName }
-  ]
-}
+
 
 //确定按钮的回调
 const save = async () => {
