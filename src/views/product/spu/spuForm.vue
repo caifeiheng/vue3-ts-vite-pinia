@@ -111,9 +111,9 @@ const getSpu = async (spu:SpuData)=>{
   //获取全部品牌
   let allTradeMark:GetAllTradeMark = await getAllTradeMark()
   //获取照片墙数据
-  let imgurl:SpuHasImg = await getSpuImg(spu.id)
+  let imgurl:SpuHasImg = await getSpuImg((spu.id as number))
   //获取已有销售属性
-  let sellAttrData:SaleAttrResponseData = await getSaleAttr(spu.id)
+  let sellAttrData:SaleAttrResponseData = await getSaleAttr((spu.id as number))
   //获取全部销售属性
   let allSellAllr:AllSaletAttrResponseData = await getAllSaleAttr()
    //存储全部品牌的数据

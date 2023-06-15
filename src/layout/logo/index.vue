@@ -1,6 +1,7 @@
 <template>
   <div class="logo" v-if="setting.logoHidden">
-      <img :src="setting.logo" alt="">
+      <img src="https://tupian.qqw21.com/article/UploadPic/2020-5/20205622141367241.jpg" alt="">
+      <!-- {{ setting.logo }} -->
       <p>{{setting.title}}</p>
   </div>
 </template>

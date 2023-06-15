@@ -61,7 +61,7 @@ import {useCategoryStore} from '@/stores/modules/category'
 //引入请求数据接口
 import { getSpuData,getSkuData,removeSpu} from '@/api/product/spu';
 //引入返回数据的ts类型
-import {Records,AllSkuData,SkuData} from '@/api/product/spu/type'
+import type {Records,AllSkuData,SkuData} from '@/api/product/spu/type'
 //引入方法
 import { ref, watch, onBeforeUnmount } from 'vue';
 //引入分类的仓库

@@ -68,7 +68,7 @@
 //获取分类的仓库
 import { useCategoryStore } from '@/stores/modules/category';
 //引入获取属性接口ts类型
-import { AttrList, Attr, AttrValue } from '@/api/product/attr/type'
+import type { AttrList, Attr, AttrValue } from '@/api/product/attr/type'
 //引入获取属性值的接口
 import { getAttrData, addOrUpdataAttr, removeAttr } from '@/api/product/attr/index'
 //引入watch监视三级分类变化

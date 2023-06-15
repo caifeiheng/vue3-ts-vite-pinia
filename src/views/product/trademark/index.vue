@@ -73,7 +73,7 @@
 </template>
 
 <script setup lang="ts">
-import { ElMessage, UploadProps, formEmits } from 'element-plus'
+import { ElMessage, UploadProps } from 'element-plus'
 //引入组合式API函数ref
 import { ref, onMounted, reactive, nextTick } from 'vue';
 import { reqHasTrademark, reqAddOrUpdateTrademark, reqDeleteTrademark } from '@/api/product/trademark';
@@ -187,7 +187,7 @@ const confirm = async () => {
   }
 }
 //上传图片组件->上传图片之前触发的钩子函数
-const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
+const beforeAvatarUpload = (rawFile:any) => {
   //钩子是在图片上传成功之前触发,上传文件之前可以约束文件类型与大小
   //要求:上传文件格式png|jpg|gif 4M
   if (rawFile.type == 'image/png' || rawFile.type == 'image/jpeg' || rawFile.type == 'image/gif') {
@@ -209,7 +209,7 @@ const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
   }
 }
 //图片上传成功钩子
-const handleAvatarSuccess: UploadProps['onSuccess'] = (response, uploadFile) => {
+const handleAvatarSuccess = (response:any,) => {
   //response:即为当前这次上传图片post请求服务器返回的数据
   //收集上传图片的地址,添加一个新的品牌的时候带给服务器
   trademarkParams.logoUrl = response.data;

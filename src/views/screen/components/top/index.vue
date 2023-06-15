@@ -24,7 +24,7 @@ let $router = useRouter();
 
 //存储当前时间
 let time = ref(moment().format('YYYY年MM月DD日 hh:mm:ss'));
-let timer = ref(null);
+let timer = ref<any>(undefined);
 //按钮的点击回调
 const goHome = () => {
     $router.push('/home')
