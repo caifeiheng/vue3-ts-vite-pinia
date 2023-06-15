@@ -70,11 +70,11 @@ const validatorPassword = (rule:any,value:any,callback:any)=>{
 let rules = {
   username:[
   // {required:true,min:5,max:10,message:'用户名长度应为5-10位',trigger:'change'}, //基础校验规则
-  {trigger:'change',validator:validatorUserName}
+  {trigger:'blur',validator:validatorUserName}
   ],
   password:[
   // {required:true,min:6,max:15,message:'用户名长度应为6-15位',trigger:'change'},//基础校验规则
-  {trigger:'change',validator:validatorPassword}
+  {trigger:'blur',validator:validatorPassword}
   ],
 }
 //登录回调

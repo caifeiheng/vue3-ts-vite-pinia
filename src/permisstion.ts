@@ -8,11 +8,11 @@ import 'nprogress/nprogress.css'
 nprogress.configure({ showSpinner: false })
 //获取用户相关的小仓库内部token数据,去判断用户是否登录成功
 import {useLoginStore} from './stores/modules/user'
-import pinia from './stores/index'
+import pinia from './stores'
 const userStore = useLoginStore(pinia)
 //全局守卫:项目当中任意路由切换都会触发的钩子
 //全局前置守卫
-router.beforeEach(async (to: any, from: any, next: any) => {  
+router.beforeEach(async (to: any, from: any, next: any) => {
   document.title = `${setting.title} - ${to.meta.title}`
   //to:你将要访问那个路由
   //from:你从来个路由而来
