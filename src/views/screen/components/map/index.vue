@@ -22,11 +22,11 @@ onMounted(() => {
             map: 'china',//中国地图
             roam: true,//鼠标缩放的效果
             //地图的位置调试
-            left: 150,
-            top: 150,
-            right: 150,
-            zoom:1.2,
-            bottom: 0,
+            // left: 150,
+            top: 100,
+            bottom: -100,
+            // right: 150,
+            // zoom:1,
             //地图上的文字的设置
             label: {
                 show: true,//文字显示出来
@@ -43,7 +43,7 @@ onMounted(() => {
                     x2: 0,
                     y2: 1,
                     colorStops: [{
-                        offset: 0, color: 'red' // 0% 处的颜色
+                        offset: 0, color: '#FF8100' // 0% 处的颜色
                     }, {
                         offset: 1, color: 'blue' // 100% 处的颜色
                     }],
@@ -54,7 +54,7 @@ onMounted(() => {
             //地图高亮的效果
             emphasis: {
                 itemStyle: {
-                    color: 'red'
+                    color: '#FF8100'
                 },
                 label: {
                     fontSize: 40
@@ -75,27 +75,69 @@ onMounted(() => {
                     {
                         coords: [
                             [116.405285, 39.904989],  // 起点
-                            [119.306239, 26.075302]   // 终点
-
-                        ],
-                        // 统一的样式设置
-                        lineStyle: {
-                            color: 'orange',
-                            width: 5
-                        }
-                    },
-                    {
-                        coords: [
-                            [116.405285, 39.904989],  // 起点
-                            [114.298572,30.584355]   // 终点
-
+                            [119.306239, 26.075302],   // 终点
                         ],
                         // 统一的样式设置
                         lineStyle: {
                             color: 'yellow',
                             width: 5
                         }
-                    }
+                    },
+                    {
+                        coords: [
+                            [116.405285, 39.904989],  // 起点
+                            [114.298572,30.584355],   // 终点
+                        ],
+                        // 统一的样式设置
+                        lineStyle: {
+                            color: 'yellow',
+                            width: 5
+                        }
+                    },
+                    {
+                        coords: [
+                            [116.405285, 39.904989],  // 起点
+                            [ 126.171208,43.703954],   // 终点
+                        ],
+                        // 统一的样式设置
+                        lineStyle: {
+                            color: 'yellow',
+                            width: 5
+                        }
+                    },
+                    {
+                        coords: [
+                            [116.405285, 39.904989],  // 起点
+                            [112.304436,37.618179 ],   // 终点
+                        ],
+                        // 统一的样式设置
+                        lineStyle: {
+                            color: 'yellow',
+                            width: 5
+                        }
+                    },
+                    {
+                        coords: [
+                            [116.405285, 39.904989],  // 起点
+                            [114.077429, 44.331087],  // 终点
+                        ],
+                        // 统一的样式设置
+                        lineStyle: {
+                            color: 'yellow',
+                            width: 5
+                        }
+                    },
+                    {
+                        coords: [
+                            [116.405285, 39.904989],  // 起点
+                            [122.604994,41.299712],  // 终点
+                        ],
+                        // 统一的样式设置
+                        lineStyle: {
+                            color: 'yellow',
+                            width: 5
+                        }
+                    },
                 ],
                 //开启动画特效
                 effect: {

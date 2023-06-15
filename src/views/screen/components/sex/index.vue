@@ -42,8 +42,8 @@ onMounted(() => {
     //x|y
     xAxis: {
       show: false,
-      min: 0,
-      max: 100
+      min: 10,
+      max: 90
     },
     yAxis: {
       show: false,
@@ -63,7 +63,7 @@ onMounted(() => {
       ,
       {
         type: 'bar',
-        data: [100],
+        data: [90],
         barWidth: 20,
         //调整女士柱条位置
         barGap: '-100%',
@@ -132,10 +132,14 @@ onMounted(() => {
     display: flex;
     justify-content: space-between;
     color: white;
+    width: 90%;
+    margin: auto;
   }
 
   .charts {
     height: 100px;
+    width: 90%;
+    margin: auto;
   }
 }
 </style>
