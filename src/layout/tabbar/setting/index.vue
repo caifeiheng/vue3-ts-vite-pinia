@@ -6,7 +6,7 @@
       <!-- 表单元素 -->
       <el-form>
           <el-form-item label="主题颜色">
-              <el-color-picker size="small" show-alpha  />
+              <el-color-picker size="small" show-alpha  v-model="color" @change="setColor"/>
           </el-form-item>
           <el-form-item label="暗黑模式">
               <el-switch v-model="dark" inline-prompt active-icon="MoonNight" inactive-icon="Sunny" @change="changeDark" />
@@ -93,7 +93,6 @@ const predefineColors = ref([
   'hsla(209, 100%, 56%, 0.73)',
   '#c7158577',
 ])
-
 //switch开关的chang事件进行暗黑模式的切换
 const changeDark = () => {
   //获取HTML根节点
@@ -101,17 +100,12 @@ const changeDark = () => {
   //判断HTML标签是否有类名dark
   dark.value ? html.className = 'dark' : html.className = '';
 }
-
-
-
-
-
-// //主题颜色的设置
-// const setColor = ()=>{
-//  //通知js修改根节点的样式对象的属性与属性值
-//  const html = document.documentElement;
-//  html.style.setProperty('--el-color-primary',color.value);
-// }
+//主题颜色的设置
+const setColor = ()=>{
+ //通知js修改根节点的样式对象的属性与属性值
+ const html = document.documentElement;
+ html.style.setProperty('--el-color-primary',color.value);
+}
 </script>
 
 <script lang="ts">
