@@ -1,5 +1,6 @@
 <template>
-  <el-card>
+  <div>
+    <el-card>
     <div class="box">
       <img :src="userStore.avatar" alt="" class="avatar">
       <div class="bottom">
@@ -10,6 +11,7 @@
   </el-card>
   <div class="bottoms">
     <svg-icon name="welcome" width="600px" height="300px"></svg-icon>
+  </div>
   </div>
 </template>
 

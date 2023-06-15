@@ -9,8 +9,7 @@
               <el-color-picker size="small" show-alpha  />
           </el-form-item>
           <el-form-item label="暗黑模式">
-              <el-switch class="mt-2" style="margin-left: 24px" inline-prompt
-                  active-icon="MoonNight" inactive-icon="Sunny" />
+              <el-switch v-model="dark" inline-prompt active-icon="MoonNight" inactive-icon="Sunny" @change="changeDark" />
           </el-form-item>
       </el-form>
       <template #reference>
@@ -41,6 +40,9 @@ import { useTabbarStore } from '@/stores/modules/tabbar';
 import { useLoginStore } from '@/stores/modules/user';
 //引入路由
 import { useRouter, useRoute } from 'vue-router';
+import { ref } from 'vue'
+//收集开关的数据
+let dark = ref<boolean>(false);
 //获取路由器对象
 let $router = useRouter();
 //获取路由对向
@@ -73,41 +75,36 @@ const logout = async () => {
   //跳转到登录页面
   $router.push({ path: '/login', query: { redirect: $route.path } });
 }
-// import { ref } from 'vue'
-// //收集开关的数据
-// let dark = ref<boolean>(false);
-// //刷新按钮点击回调
-// const updateRefsh = () => {
-//   layoutSettingStore.refsh = !layoutSettingStore.refsh;
-// };
+//颜色组件组件的数据
+const color = ref('rgba(255, 69, 0, 0.68)')
+const predefineColors = ref([
+  '#ff4500',
+  '#ff8c00',
+  '#ffd700',
+  '#90ee90',
+  '#00ced1',
+  '#1e90ff',
+  '#c71585',
+  'rgba(255, 69, 0, 0.68)',
+  'rgb(255, 120, 0)',
+  'hsv(51, 100, 98)',
+  'hsva(120, 40, 94, 0.5)',
+  'hsl(181, 100%, 37%)',
+  'hsla(209, 100%, 56%, 0.73)',
+  '#c7158577',
+])
+
+//switch开关的chang事件进行暗黑模式的切换
+const changeDark = () => {
+  //获取HTML根节点
+  let html = document.documentElement;
+  //判断HTML标签是否有类名dark
+  dark.value ? html.className = 'dark' : html.className = '';
+}
 
 
-// //颜色组件组件的数据
-// const color = ref('rgba(255, 69, 0, 0.68)')
-// const predefineColors = ref([
-//   '#ff4500',
-//   '#ff8c00',
-//   '#ffd700',
-//   '#90ee90',
-//   '#00ced1',
-//   '#1e90ff',
-//   '#c71585',
-//   'rgba(255, 69, 0, 0.68)',
-//   'rgb(255, 120, 0)',
-//   'hsv(51, 100, 98)',
-//   'hsva(120, 40, 94, 0.5)',
-//   'hsl(181, 100%, 37%)',
-//   'hsla(209, 100%, 56%, 0.73)',
-//   '#c7158577',
-// ])
 
-// //switch开关的chang事件进行暗黑模式的切换
-// const changeDark = () => {
-//   //获取HTML根节点
-//   let html = document.documentElement;
-//   //判断HTML标签是否有类名dark
-//   dark.value ? html.className = 'dark' : html.className = '';
-// }
+
 
 // //主题颜色的设置
 // const setColor = ()=>{
